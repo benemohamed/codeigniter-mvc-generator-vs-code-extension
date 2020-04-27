@@ -3,7 +3,6 @@ import * as _ from "lodash";
 import { existsSync } from "fs";
 import { FileSystemManager } from "../../utils/file_system_manager";
 import { Controller } from "../../templates/controller/controller";
-import { YamlHelper } from "../../utils/yaml_helper";
 
 export class ControllerFile {
   constructor(
@@ -12,45 +11,37 @@ export class ControllerFile {
     private folders?: string[]
   ) {
     console.debug(`ViewFile(rootPath: ${rootPath}, fileName: ${fileName})`);
-    let folderCreated = FileSystemManager.createFolder(this.pathValue);
-    if (!folderCreated) {
-      return;
-    }
+
   }
 
   public createResponsiveViews() {
     this.createFiles(
-      this.snakeCasedFileName + "_controller.dart",
+      this.snakeCasedFileName + "Controller.php",
       new Controller(
         this.snakeCasedFileName,
-        "Controller",
-        YamlHelper.getProjectName()
-      ).dartString
+        "Controller"
+      ).phpString
     );
-    YamlHelper.initializeWithDependencies();
   }
 
   private get snakeCasedFileName(): string {
-    let snakeCasedFileName = _.snakeCase(this.fileName);
+    let snakeCasedFileName = _.kebabCase(this.fileName);
     console.debug(`get snakeCasedFileName: ${snakeCasedFileName}`);
-    return snakeCasedFileName;
+    return _.capitalize(snakeCasedFileName);
   }
 
   private get pathValue(): string {
     if (this.folders === undefined) {
       return path.join(
         this.rootPath,
-        "lib",
-        "controllers",
-        this.snakeCasedFileName
+        "application",
+        "controllers"
       );
     }
     return path.join(
       this.rootPath,
-      "lib",
-      "controllers",
-      ...this.folders,
-      this.snakeCasedFileName
+      "application",
+      "controllers"
     );
   }
 

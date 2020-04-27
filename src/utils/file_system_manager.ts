@@ -9,7 +9,6 @@ import * as path from "path";
 import { Utils } from "./utils";
 import * as shell from "shelljs";
 import { VsCodeActions } from "./vs_cose_actions";
-import { YamlHelper } from "./yaml_helper";
 
 export class FileSystemManager {
   public static createFile(pathValue: string, fileName: string, data: string) {
@@ -46,16 +45,10 @@ export class FileSystemManager {
     return fileData;
   }
 
-  public static isFlutterProject(): boolean {
+  public static isCodeigniter(): boolean {
     let rootPath = VsCodeActions.rootPath;
-    if (!existsSync(path.join(rootPath, "pubspec.yaml"))) {
-      VsCodeActions.showErrorMessage("Pubspec.yaml not found");
-      return false;
-    }
-    let errorMessage = YamlHelper.isValidFlutterPubspec();
-    console.error(errorMessage);
-    if (errorMessage !== undefined) {
-      VsCodeActions.showErrorMessage(errorMessage);
+    if (!existsSync(path.join(rootPath, "index.php"))) {
+      VsCodeActions.showErrorMessage("index.php not found");
       return false;
     }
 

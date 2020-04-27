@@ -2,76 +2,93 @@ import * as _ from "lodash";
 import { Base } from "../base";
 
 export class Model extends Base {
-  private _dartString: string;
+  private _phpString: string;
 
   constructor(fileName: string, suffix: string, private projectName?: string) {
     super(fileName, suffix);
-    this._dartString = `import 'package:flutter/material.dart';
+    this._phpString = `<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
 
-enum ${this.className}Status {
-  Ended,
-  Loading,
-  Error,
-}
+/**
+ * summary
+ */
+class ${this.className} extends CI_Model {
+    /**
+     * @var string
+     */
+    private $table;
 
-class ${this.className} extends ChangeNotifier {
-  ${this.className}Status _status;
-  String _errorCode;
-  String _errorMessage;
+    /**
+     * Construct
+     */
+    public function __construct() {
+        // $this->load->database();
 
-  String get errorCode => _errorCode;
-  String get errorMessage => _errorMessage;
-  ${this.className}Status get status => _status;
+        $this -> table = 'files';
+    }
 
-  ${this.className}();
+    /**
+     * Get data from the table
+     * @param  array  $params
+     * @return mixed         data
+     */
+    public function get() {
+        // The SELECT portion of a query
+        $this -> db -> select('*');
 
-  ${this.className}.instance() {
-    //TODO Add code here
-  }
-  
-  void getter() {
-    _status = ${this.className}Status.Loading;
-    notifyListeners();
+        //  Table name
+        $this -> db -> from($this -> table);
 
-    //TODO Add code here
+        $query = $this -> db -> get();
 
-    _status = ${this.className}Status.Ended;
-    notifyListeners();
-  }
+        // returns the result
+        return $query -> result();
 
-  void setter() {
-    _status = ${this.className}Status.Loading;
-    notifyListeners();
+    }
 
-    //TODO Add code here
-    
-    _status = ${this.className}Status.Ended;
-    notifyListeners();
-  }
+    /*
+     * Insert  data
+     * @return bool|int
+     */
+    public function insert($data = array()) {
 
-  void update() {
-    _status = ${this.className}Status.Loading;
-    notifyListeners();
+        // insert  data to  table
+        $insert = $this -> db -> insert($this -> table, $data);
 
-    //TODO Add code here
-    
-    _status = ${this.className}Status.Ended;
-    notifyListeners();
-  }
+        // return the status
+        return $insert ? $this -> db -> insert_id() : false;
+    }
 
-  void remove() {
-    _status = ${this.className}Status.Loading;
-    notifyListeners();
+    /**
+     * Update data
+     * @param array $data  data
+     * @param int $some_id
+     * @return bool
+     */
+    public function update($data, int $some_id) {
 
-    //TODO Add code here
-    
-    _status = ${this.className}Status.Ended;
-    notifyListeners();
-  }
+        //update data in $this->table table
+        $update = $this -> db -> update($this -> table, $data, ['some_id' => $some_id]);
+
+        // return the status
+        return $update ? true : false;
+    }
+
+    /**
+     * Delete data
+     * @param  int    $file_id File id
+     * @return bool
+     */
+    public function delete(int $some_id) {
+        // Delete from $this->table table
+        $delete = $this -> db -> delete ($this -> table, ['some_id' => $some_id]);
+        // return the status
+        return $delete ? true : false;
+    }
 }`;
   }
 
-  get dartString(): string {
-    return this._dartString;
+  get phpString(): string {
+    return this._phpString;
   }
 }

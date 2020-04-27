@@ -2,7 +2,7 @@ import * as _ from "lodash";
 import { Base } from "../base";
 
 export class Controller extends Base {
-  private _dartString: string;
+  private _phpString: string;
 
   constructor(fileName: string, suffix: string, private projectName?: string) {
     super(fileName, suffix);
@@ -15,41 +15,27 @@ export class Controller extends Base {
       this.projectName === undefined
         ? "../../"
         : `package:${this.projectName}/`;
-    this._dartString = `import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-// import model
-import '${initialPath}models/${fileName}/${fileName}_model.dart';
+    this._phpString = `
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
 
-class ${this.className} {
-  ${this.className}();
-  
-  void getter(BuildContext context) {
-    ${classPrefix}Model viewModel = Provider.of<${classPrefix}Model>(context, listen: false);
-    //TODO Add code here for getter
-    viewModel.getter();
+class ${this.className} extends CI_Controller {
+
+  public function __construct()
+  {
+      parent::__construct();
+
+      // $this->load->model('some_model');
   }
 
-  void setter(BuildContext context) {
-    ${classPrefix}Model viewModel = Provider.of<${classPrefix}Model>(context, listen: false);
-    //TODO Add code here for setter
-    viewModel.setter();
-  }
-
-  void update(BuildContext context) {
-    ${classPrefix}Model viewModel = Provider.of<${classPrefix}Model>(context, listen: false);
-    //TODO Add code here for update
-    viewModel.update();
-  }
-
-  void remove(BuildContext context) {
-    ${classPrefix}Model viewModel = Provider.of<${classPrefix}Model>(context, listen: false);
-    //TODO Add code here for remove
-    viewModel.remove();
-  }
+	public function index()
+	{
+	 //	$this->load->view('welcome_message');
+	}
 }`;
   }
 
-  get dartString(): string {
-    return this._dartString;
+  get phpString(): string {
+    return this._phpString;
   }
 }

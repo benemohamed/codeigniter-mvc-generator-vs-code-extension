@@ -6,17 +6,17 @@ export class BaseFile {
     private rootPath: string,
     private snakeCasedFileName: string,
     private folders?: string[]
-  ) {}
+  ) { }
 
   public get pathComponents(): string {
-    return path.join(this.rootPath, "lib", "components");
+    return path.join(this.rootPath, "application", "components");
   }
 
   public get pathViewComponents(): string {
     if (this.folders === undefined) {
       return path.join(
         this.rootPath,
-        "lib",
+        "application",
         "views",
         this.snakeCasedFileName,
         "components"
@@ -24,7 +24,7 @@ export class BaseFile {
     }
     return path.join(
       this.rootPath,
-      "lib",
+      "application",
       "views",
       ...this.folders,
       this.snakeCasedFileName,
@@ -36,7 +36,7 @@ export class BaseFile {
     if (this.folders === undefined) {
       return path.join(
         this.rootPath,
-        "lib",
+        "application",
         "views",
         this.snakeCasedFileName,
         "layouts"
@@ -44,7 +44,7 @@ export class BaseFile {
     }
     return path.join(
       this.rootPath,
-      "lib",
+      "application",
       "views",
       ...this.folders,
       this.snakeCasedFileName,

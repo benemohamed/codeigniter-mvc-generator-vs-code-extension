@@ -3,7 +3,6 @@ import * as _ from "lodash";
 import { existsSync } from "fs";
 import { FileSystemManager } from "../../utils/file_system_manager";
 import { Model } from "../../templates/model/model";
-import { YamlHelper } from "../../utils/yaml_helper";
 
 export class ModelFile {
   constructor(
@@ -12,37 +11,30 @@ export class ModelFile {
     private folders?: string[]
   ) {
     console.debug(`ViewFile(rootPath: ${rootPath}, fileName: ${fileName})`);
-    let folderCreated = FileSystemManager.createFolder(this.pathValue);
-    if (!folderCreated) {
-      return;
-    }
   }
 
   public createResponsiveViews() {
     this.createFiles(
-      this.snakeCasedFileName + "_model.dart",
-      new Model(this.snakeCasedFileName, "Model", YamlHelper.getProjectName())
-        .dartString
+      this.snakeCasedFileName + "Model.php",
+      new Model(this.snakeCasedFileName, "Model")
+        .phpString
     );
-    YamlHelper.initializeWithDependencies();
   }
 
   private get snakeCasedFileName(): string {
-    let snakeCasedFileName = _.snakeCase(this.fileName);
+    let snakeCasedFileName = _.capitalize(this.fileName);
     console.debug(`get snakeCasedFileName: ${snakeCasedFileName}`);
     return snakeCasedFileName;
   }
 
   private get pathValue(): string {
     if (this.folders === undefined) {
-      return path.join(this.rootPath, "lib", "models", this.snakeCasedFileName);
+      return path.join(this.rootPath, "application", "models");
     }
     return path.join(
       this.rootPath,
-      "lib",
-      "models",
-      ...this.folders,
-      this.snakeCasedFileName
+      "application",
+      "models"
     );
   }
 

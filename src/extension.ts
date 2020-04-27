@@ -3,13 +3,12 @@ import _ = require("lodash");
 import { FileSystemManager } from "./utils/file_system_manager";
 import { VsCodeActions } from "./utils/vs_cose_actions";
 import { Utils } from "./utils/utils";
-import { ViewFile } from "./events/view/view";
 import { ModelFile } from "./events/model/model";
 import { ControllerFile } from "./events/controller/controller";
 
 export function activate(context: vscode.ExtensionContext) {
-  let mvDisposable = vscode.commands.registerCommand(
-    "extension.createMV",
+  let mcDisposable = vscode.commands.registerCommand(
+    "extension.createMC",
     async () => {
       let inputString = await checkInputString();
       if (inputString === undefined) {
@@ -28,34 +27,11 @@ export function activate(context: vscode.ExtensionContext) {
         return;
       }
       new ModelFile(rootPath, fileName, folders).createResponsiveViews();
-      new ViewFile(rootPath, fileName, folders, "MV").createResponsiveViews();
-    }
-  );
-
-  let mvcDisposable = vscode.commands.registerCommand(
-    "extension.createMVC",
-    async () => {
-      let inputString = await checkInputString();
-      if (inputString === undefined) {
-        VsCodeActions.showErrorMessage("Invalid name for file");
-        return;
-      }
-      let folders: string[] = [];
-      folders = getFolders(inputString);
-      let fileName = getFileName(inputString);
-      if (fileName === undefined) {
-        VsCodeActions.showErrorMessage("Invalid name for file");
-        return;
-      }
-      let rootPath = VsCodeActions.rootPath;
-      if (rootPath === undefined) {
-        return;
-      }
-      new ModelFile(rootPath, fileName, folders).createResponsiveViews();
-      new ViewFile(rootPath, fileName, folders, "MVC").createResponsiveViews();
       new ControllerFile(rootPath, fileName, folders).createResponsiveViews();
     }
   );
+
+
 
   let modelDisposable = vscode.commands.registerCommand(
     "extension.createModel",
@@ -80,28 +56,6 @@ export function activate(context: vscode.ExtensionContext) {
     }
   );
 
-  let viewDisposable = vscode.commands.registerCommand(
-    "extension.createView",
-    async () => {
-      let inputString = await checkInputString();
-      if (inputString === undefined) {
-        VsCodeActions.showErrorMessage("Invalid name for file");
-        return;
-      }
-      let folders: string[] = [];
-      folders = getFolders(inputString);
-      let fileName = getFileName(inputString);
-      if (fileName === undefined) {
-        VsCodeActions.showErrorMessage("Invalid name for file");
-        return;
-      }
-      let rootPath = VsCodeActions.rootPath;
-      if (rootPath === undefined) {
-        return;
-      }
-      new ViewFile(rootPath, fileName, folders, "MVC").createResponsiveViews();
-    }
-  );
 
   let controllerDisposable = vscode.commands.registerCommand(
     "extension.createController",
@@ -126,14 +80,12 @@ export function activate(context: vscode.ExtensionContext) {
     }
   );
 
-  context.subscriptions.push(mvDisposable);
-  context.subscriptions.push(mvcDisposable);
+  context.subscriptions.push(mcDisposable);
   context.subscriptions.push(modelDisposable);
-  context.subscriptions.push(viewDisposable);
   context.subscriptions.push(controllerDisposable);
 
   let checkInputString = async () => {
-    if (!FileSystemManager.isFlutterProject()) {
+    if (!FileSystemManager.isCodeigniter()) {
       return;
     }
     let inputString = await VsCodeActions.getInputString(
@@ -185,4 +137,4 @@ export function activate(context: vscode.ExtensionContext) {
   };
 }
 
-export function deactivate() {}
+export function deactivate() { }

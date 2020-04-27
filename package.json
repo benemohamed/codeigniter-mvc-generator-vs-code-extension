@@ -1,8 +1,8 @@
 {
-  "name": "flutter-mvc-generator",
-  "displayName": "Flutter MVC Generator",
-  "description": "Visual studio code extension to generate MVC and MV patterns template code using Provider for flutter",
-  "version": "0.1.0",
+  "name": "codeigniter-mvc-generator",
+  "displayName": "Codeigniter MVC Generator",
+  "description": "Visual studio code extension to generate MV patterns template code using Provider for codeigniter",
+  "version": "0.0.1",
   "engines": {
     "vscode": "^1.41.0"
   },
@@ -11,13 +11,13 @@
     "Snippets"
   ],
   "keywords": [
-    "flutter",
+    "codeigniter",
     "MVC",
-    "dart"
+    "php"
   ],
-  "publisher": "kurosh",
-  "icon": "images/flutter.png",
-  "repository": "https://github.com/kuroshmondora/flutter-mvc-generator-vs-code-extension",
+  "publisher": "benemohamed",
+  "icon": "images/codeigniter.png",
+  "repository": "https://github.com/benemohamed/codeigniter-mvc-generator-vs-code-extension",
   "author": {
     "email": "kurosh@mondora.com",
     "name": "Kurosh",
@@ -28,13 +28,16 @@
     {
       "name": "Kurosh",
       "email": "kurosh@mondora.com",
-      "url": "https://github.com/kuroshmondora/flutter-mvc-generator-vs-code-extension"
+      "url": "https://github.com/kuroshmondora/codeigniter-mvc-generator-vs-code-extension"
+    },
+    {
+      "name": "Mohamed benrebia",
+      "email": "mohamed@ipfinder.io",
+      "url": "https://github.com/benemohamed/codeigniter-mvc-generator-vs-code-extension"
     }
   ],
   "activationEvents": [
-    "onCommand:extension.createMV",
-    "onCommand:extension.createMVC",
-    "onCommand:extension.createView",
+    "onCommand:extension.createMC",
     "onCommand:extension.createModel",
     "onCommand:extension.createController"
   ],
@@ -42,52 +45,34 @@
   "contributes": {
     "commands": [
       {
-        "command": "extension.createMV",
-        "title": "Create flutter MV",
-        "category": "Flutter Architecture"
-      },
-      {
-        "command": "extension.createMVC",
-        "title": "Create flutter MVC",
-        "category": "Flutter Architecture"
+        "command": "extension.createMC",
+        "title": "Create codeigniter MC",
+        "category": "Codeigniter Architecture"
       },
       {
         "command": "extension.createModel",
-        "title": "Create flutter model",
-        "category": "Flutter Architecture"
-      },
-      {
-        "command": "extension.createView",
-        "title": "Create flutter view",
-        "category": "Flutter Architecture"
+        "title": "Create codeigniter model",
+        "category": "Codeigniter Architecture"
       },
       {
         "command": "extension.createController",
-        "title": "Create flutter controller",
-        "category": "Flutter Architecture"
+        "title": "Create codeigniter controller",
+        "category": "Codeigniter Architecture"
       }
     ],
     "menus": {
       "explorer/context": [
         {
-          "command": "extension.createMV",
-          "group": "1_flutter_mvc_modification"
-        },
-        {
-          "command": "extension.createMVC",
-          "group": "1_flutter_mvc_modification"
+          "command": "extension.createMC",
+          "group": "1_codeigniter_mvc_modification"
         },
         {
           "command": "extension.createModel",
-          "group": "1_flutter_mvc_modification"
-        },
-        {
-          "command": "extension.createView",
-          "group": "1_flutter_mvc_modification"
+          "group": "1_codeigniter_mvc_modification"
         },
         {
           "command": "extension.createController",
-          "group": "1_flutter_mvc_modification"
+          "group": "1_codeigniter_mvc_modification"
         }
       ]
     }
@@ -101,7 +86,6 @@
   },
   "devDependencies": {
     "@types/glob": "^7.1.1",
-    "@types/js-yaml": "^3.12.1",
     "@types/lodash": "^4.14.149",
     "@types/mocha": "^5.2.7",
     "@types/node": "^12.11.7",
@@ -114,7 +98,6 @@
     "vscode-test": "^1.2.2"
   },
   "dependencies": {
-    "js-yaml": "^3.13.1",
     "lodash": "^4.17.15",
     "shelljs": "^0.8.3"
   }
