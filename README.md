@@ -1,4 +1,4 @@
-# Flutter MVC Architecture Generator
+# Codeigniter MVC Architecture Generator
 
 Visual studio code extension to generate MVC and MV patterns template .
 
